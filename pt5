@@ -1,1 +1,17 @@
+class Cliente:
+    def __init__(self):
+        self.clientes = []
+    
+    def criar(self, id_cliente, id_empresa, nome, cpf, email):
+        self.clientes.append({
+            'id_cliente': id_cliente,
+            'id_empresa': id_empresa,
+            'nome': nome,
+            'cpf': cpf,
+            'email': email
+        })
 
+if __name__ == "__main__":
+    db = Cliente()
+    db.criar(1, 1, "João Silva", "12345678901", "joao@email.com")
+    print("Cliente cadastrado:", db.clientes[0])

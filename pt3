@@ -1,0 +1,21 @@
+class Produto:
+    def __init__(self):
+        self.produtos = []
+    
+    def criar(self, id_produto, id_categoria, nome, custo, venda):
+        self.produtos.append({
+            'id_produto': id_produto,
+            'id_categoria': id_categoria,
+            'nome': nome,
+            'custo': float(custo),
+            'venda': float(venda)
+        })
+    
+    def calcular_lucro(self, id_produto):
+        produto = next((p for p in self.produtos if p['id_produto'] == id_produto), None)
+        return produto['venda'] - produto['custo'] if produto else 0
+
+if __name__ == "__main__":
+    db = Produto()
+    db.criar(1, 1, "Notebook", 3000, 4500)
+    print("Lucro:", db.calcular_lucro(1))

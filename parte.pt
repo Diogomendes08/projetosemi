@@ -1,0 +1,204 @@
+1
+class Categoria:
+    def __init__(self):
+        self.categorias = []
+    
+    def add_categoria(self, id_categoria, id_empresa, nome, data_cadastro, id_responsavel):
+        self.categorias.append({
+            'id_categoria': id_categoria,
+            'id_empresa': id_empresa,
+            'nome': nome,
+            'data_cadastro': data_cadastro,
+            'id_responsavel': id_responsavel
+        })
+    
+    def get_categoria(self, id_categoria):
+        return next((c for c in self.categorias if c['id_categoria'] == id_categoria), None)
+
+class Usuario:
+    def __init__(self):
+        self.usuarios = []
+    
+    def add_usuario(self, id_usuario, id_empresa, nome, login, senha):
+        self.usuarios.append({
+            'id_usuario': id_usuario,
+            'id_empresa': id_empresa,
+            'nome': nome,
+            'login': login,
+            'senha': senha
+        })
+    
+    def autenticar(self, login, senha):
+        return next((u for u in self.usuarios if u['login'] == login and u['senha'] == senha), None)
+
+class Fornecedor:
+    def __init__(self):
+        self.fornecedores = []
+    
+    def add_fornecedor(self, id_fornecedor, id_empresa, telefone, email, cnpj):
+        self.fornecedores.append({
+            'id_fornecedor': id_fornecedor,
+            'id_empresa': id_empresa,
+            'telefone': telefone,
+            'email': email,
+            'cnpj': cnpj
+        })
+
+class Sistema:
+    def __init__(self):
+        self.sistemas = []
+    
+    def add_sistema(self, id_sistema, id_empresa, id_auditoria, funcionarios, id_fornecedor):
+        self.sistemas.append({
+            'id_sistema': id_sistema,
+            'id_empresa': id_empresa,
+            'id_auditoria': id_auditoria,
+            'funcionarios': funcionarios,
+            'id_fornecedor': id_fornecedor
+        })
+
+class Funcionario:
+    def __init__(self):
+        self.funcionarios = []
+    
+    def add_funcionario(self, id_funcionario, cpf, email, nome, id_cargo, id_sistema):
+        self.funcionarios.append({
+            'id_funcionario': id_funcionario,
+            'cpf': cpf,
+            'email': email,
+            'nome': nome,
+            'id_cargo': id_cargo,
+            'id_sistema': id_sistema
+        })
+
+class Empresa:
+    def __init__(self):
+        self.empresas = []
+    
+    def add_empresa(self, id_empresa, endereco, telefone, email, cadastro, id_sistema):
+        self.empresas.append({
+            'id_empresa': id_empresa,
+            'endereco': endereco,
+            'telefone': telefone,
+            'email': email,
+            'cadastro': cadastro,
+            'id_sistema': id_sistema
+        })
+
+class Auditoria:
+    def __init__(self):
+        self.auditorias = []
+    
+    def add_auditoria(self, id_auditoria, id_usuario, id_registro, tabela_afetada, dados):
+        self.auditorias.append({
+            'id_auditoria': id_auditoria,
+            'id_usuario': id_usuario,
+            'id_registro': id_registro,
+            'tabela_afetada': tabela_afetada,
+            'dados': dados
+        })
+
+class Produto:
+    def __init__(self):
+        self.produtos = []
+    
+    def add_produto(self, id_produto, id_categoria, nome, custo, venda):
+        self.produtos.append({
+            'id_produto': id_produto,
+            'id_categoria': id_categoria,
+            'nome': nome,
+            'custo': float(custo),
+            'venda': float(venda)
+        })
+    
+    def calcular_lucro(self, id_produto):
+        produto = self.get_produto(id_produto)
+        if produto:
+            return produto['venda'] - produto['custo']
+        return 0
+
+class Estoque:
+    def __init__(self):
+        self.estoques = []
+    
+    def add_estoque(self, id_estoque, id_produto, quantidade, local, id_fornecedor):
+        self.estoques.append({
+            'id_estoque': id_estoque,
+            'id_produto': id_produto,
+            'quantidade': int(quantidade),
+            'local': local,
+            'id_fornecedor': id_fornecedor
+        })
+
+class ItemVenda:
+    def __init__(self):
+        self.itens_venda = []
+    
+    def add_item_venda(self, id_item, id_venda, id_produto, quantidade, preco):
+        self.itens_venda.append({
+            'id_item': id_item,
+            'id_venda': id_venda,
+            'id_produto': id_produto,
+            'quantidade': int(quantidade),
+            'preco': float(preco)
+        })
+
+class NotaFiscal:
+    def __init__(self):
+        self.notas_fiscais = []
+    
+    def add_nota_fiscal(self, id_nota, id_venda, id_pedido, numero, data_emissao):
+        self.notas_fiscais.append({
+            'id_nota': id_nota,
+            'id_venda': id_venda,
+            'id_pedido': id_pedido,
+            'numero': numero,
+            'data_emissao': data_emissao
+        })
+
+class Cliente:
+    def __init__(self):
+        self.clientes = []
+    
+    def add_cliente(self, id_cliente, id_empresa, nome, cpf, email):
+        self.clientes.append({
+            'id_cliente': id_cliente,
+            'id_empresa': id_empresa,
+            'nome': nome,
+            'cpf': cpf,
+            'email': email
+        })
+
+# Exemplo de uso no Programiz
+if __name__ == "__main__":
+    # Inicializando todas as tabelas
+    categoria_db = Categoria()
+    usuario_db = Usuario()
+    fornecedor_db = Fornecedor()
+    sistema_db = Sistema()
+    funcionario_db = Funcionario()
+    empresa_db = Empresa()
+    auditoria_db = Auditoria()
+    produto_db = Produto()
+    estoque_db = Estoque()
+    item_venda_db = ItemVenda()
+    nota_fiscal_db = NotaFiscal()
+    cliente_db = Cliente()
+
+    # Adicionando exemplos
+    empresa_db.add_empresa(1, "Av. Paulista, 1000", "1122223333", "contato@empresa.com", "12345", 1)
+    usuario_db.add_usuario(1, 1, "João Silva", "joao", "senha123")
+    categoria_db.add_categoria(1, 1, "Eletrônicos", "2023-01-01", 1)
+    produto_db.add_produto(1, 1, "Smartphone", "800.00", "1200.00")
+    cliente_db.add_cliente(1, 1, "Maria Souza", "12345678901", "maria@email.com")
+
+    # Exibindo alguns dados
+    print("=== Empresa ===")
+    print(empresa_db.empresas[0])
+    
+    print("\n=== Produto ===")
+    print(produto_db.produtos[0])
+    print(f"Lucro: R${produto_db.calcular_lucro(1):.2f}")
+    
+    print("\n=== Cliente ===")
+    print(cliente_db.clientes[0])

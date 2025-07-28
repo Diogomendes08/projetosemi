@@ -1,0 +1,22 @@
+class Usuario:
+    def __init__(self):
+        self.usuarios = []
+    
+    def criar(self, id_usuario, id_empresa, nome, login, senha):
+        self.usuarios.append({
+            'id_usuario': id_usuario,
+            'id_empresa': id_empresa,
+            'nome': nome,
+            'login': login,
+            'senha': senha
+        })
+    
+    def autenticar(self, login, senha):
+        return next((u for u in self.usuarios if u['login'] == login and u['senha'] == senha), None)
+    
+    # Métodos buscar/atualizar/deletar similares ao da Empresa
+
+if __name__ == "__main__":
+    db = Usuario()
+    db.criar(1, 1, "Admin", "admin", "123")
+    print("Usuário autenticado:", db.autenticar("admin", "123"))

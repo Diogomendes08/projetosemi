@@ -1,0 +1,20 @@
+class Estoque:
+    def __init__(self):
+        self.estoques = []
+    
+    def criar(self, id_estoque, id_produto, quantidade, local, id_fornecedor):
+        self.estoques.append({
+            'id_estoque': id_estoque,
+            'id_produto': id_produto,
+            'quantidade': int(quantidade),
+            'local': local,
+            'id_fornecedor': id_fornecedor
+        })
+    
+    def verificar_disponibilidade(self, id_produto):
+        return sum(e['quantidade'] for e in self.estoques if e['id_produto'] == id_produto)
+
+if __name__ == "__main__":
+    db = Estoque()
+    db.criar(1, 1, 50, "Prateleira A1", 1)
+    print("Quantidade em estoque:", db.verificar_disponibilidade(1))

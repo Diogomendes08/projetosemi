@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Fornecedores</title>
+    <style>
+        /* Estilos similares aos anteriores */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Fornecedores</h1>
+        
+        <h2>Cadastrar Novo Fornecedor</h2>
+        <form id="fornecedorForm">
+            <div class="form-group">
+                <label for="id_fornecedor">ID Fornecedor:</label>
+                <input type="number" id="id_fornecedor" name="id_fornecedor" readonly>
+            </div>
+            <div class="form-group">
+                <label for="id_empresa">ID Empresa:</label>
+                <input type="number" id="id_empresa" name="id_empresa" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" maxlength="15" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" maxlength="100" required>
+            </div>
+            <div class="form-group">
+                <label for="crpj">CRPJ:</label>
+                <input type="text" id="crpj" name="crpj" maxlength="18" required>
+            </div>
+            <button type="submit">Salvar Fornecedor</button>
+        </form>
+        
+      
+        <table id="fornecedoresTable">
+            <thead>
+                <tr>
+                    <th>ID Fornecedor</th>
+                    <th>ID Empresa</th>
+                    <th>Telefone</th>
+                    <th>E-mail</th>
+                    <th>CRPJ</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
 
+        </table>
+    </div>
+
+
+</body>
+</html>

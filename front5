@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Empresas</title>
+    <style>
+        /* Estilos similares aos anteriores */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Empresas</h1>
+        
+        <h2>Cadastrar Nova Empresa</h2>
+        <form id="empresaForm">
+            <div class="form-group">
+                <label for="id_empresa">ID Empresa:</label>
+                <input type="number" id="id_empresa" name="id_empresa" readonly>
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" maxlength="100" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" maxlength="15" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" maxlength="100" required>
+            </div>
+            <div class="form-group">
+                <label for="cadastro">Cadastro:</label>
+                <input type="number" id="cadastro" name="cadastro" required>
+            </div>
+            <div class="form-group">
+                <label for="id_sistema">ID Sistema:</label>
+                <input type="number" id="id_sistema" name="id_sistema" required>
+            </div>
+            <button type="submit">Salvar Empresa</button>
+        </form>
+        
+        <h2>Empresas Cadastradas</h2>
+        <table id="empresasTable">
+            <thead>
+                <tr>
+                    <th>ID Empresa</th>
+                    <th>Endereço</th>
+                    <th>Telefone</th>
+                    <th>E-mail</th>
+                    <th>Cadastro</th>
+                    <th>ID Sistema</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            
+        </table>
+    </div>
 
+ 
+</body>
+</html>

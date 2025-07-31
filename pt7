@@ -1,1 +1,26 @@
+from app import app, get_db_connection
+from datetime import datetime
 
+@app.route('/auditoria')
+def listar_auditorias():
+    conn = get_db_connection()
+    auditorias = conn.execute('SELECT * FROM auditoria').fetchall()
+    conn.close()
+    return render_template('auditoria/listar.html', auditorias=auditorias)
+
+@app.route('/auditoria/adicionar', methods=('GET', 'POST'))
+def adicionar_auditoria():
+    if request.method == 'POST':
+        id_usuario = request.form['id_usuario']
+        id_registro = request.form['id_registro']
+        tabela_afetada = request.form['tabela_afetada']
+        dados = request.form['dados']
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO auditoria (id_usuario, id_registro, tabela_afetada, dados) VALUES (?, ?, ?, ?)',
+                     (id_usuario, id_registro, tabela_afetada, dados))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_auditorias'))
+    
+    return render_template('auditoria/adicionar.html')

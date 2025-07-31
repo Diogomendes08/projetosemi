@@ -1,0 +1,34 @@
+from app import app, get_db_connection
+
+@app.route('/estoque')
+def listar_estoque():
+    conn = get_db_connection()
+    estoque = conn.execute('''
+        SELECT e.*, p.nome as produto_nome, f.nome as fornecedor_nome
+        FROM estoque e
+        LEFT JOIN produto p ON e.id_produto = p.id_produto
+        LEFT JOIN fornecedor f ON e.id_fornecedor = f.id_fornecedor
+    ''').fetchall()
+    conn.close()
+    return render_template('estoque/listar.html', estoque=estoque)
+
+@app.route('/estoque/adicionar', methods=('GET', 'POST'))
+def adicionar_estoque():
+    conn = get_db_connection()
+    
+    if request.method == 'POST':
+        id_produto = request.form['id_produto']
+        quantidade = request.form['quantidade']
+        local = request.form['local']
+        id_fornecedor = request.form['id_fornecedor']
+        
+        conn.execute('INSERT INTO estoque (id_produto, quantidade, local, id_fornecedor) VALUES (?, ?, ?, ?)',
+                     (id_produto, quantidade, local, id_fornecedor))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_estoque'))
+    
+    produtos = conn.execute('SELECT * FROM produto').fetchall()
+    fornecedores = conn.execute('SELECT * FROM fornecedor').fetchall()
+    conn.close()
+    return render_template('estoque/adicionar.html', produtos=produtos, fornecedores=fornecedores)

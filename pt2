@@ -1,22 +1,53 @@
-class Usuario:
-    def __init__(self):
-        self.usuarios = []
-    
-    def criar(self, id_usuario, id_empresa, nome, login, senha):
-        self.usuarios.append({
-            'id_usuario': id_usuario,
-            'id_empresa': id_empresa,
-            'nome': nome,
-            'login': login,
-            'senha': senha
-        })
-    
-    def autenticar(self, login, senha):
-        return next((u for u in self.usuarios if u['login'] == login and u['senha'] == senha), None)
-    
-    # Métodos buscar/atualizar/deletar similares ao da Empresa
+from app import app, get_db_connection
 
-if __name__ == "__main__":
-    db = Usuario()
-    db.criar(1, 1, "Admin", "admin", "123")
-    print("Usuário autenticado:", db.autenticar("admin", "123"))
+@app.route('/categoria')
+def listar_categorias():
+    conn = get_db_connection()
+    categorias = conn.execute('SELECT * FROM categoria').fetchall()
+    conn.close()
+    return render_template('categoria/listar.html', categorias=categorias)
+
+@app.route('/categoria/adicionar', methods=('GET', 'POST'))
+def adicionar_categoria():
+    if request.method == 'POST':
+        id_empresa = request.form['id_empresa']
+        nome = request.form['nome']
+        data_cadastro = request.form['data_cadastro']
+        id_responsavel = request.form['id_responsavel']
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO categoria (id_empresa, nome, data_cadastro, id_responsavel) VALUES (?, ?, ?, ?)',
+                     (id_empresa, nome, data_cadastro, id_responsavel))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_categorias'))
+    
+    return render_template('categoria/adicionar.html')
+
+@app.route('/categoria/editar/<int:id>', methods=('GET', 'POST'))
+def editar_categoria(id):
+    conn = get_db_connection()
+    categoria = conn.execute('SELECT * FROM categoria WHERE id_categoria = ?', (id,)).fetchone()
+    
+    if request.method == 'POST':
+        id_empresa = request.form['id_empresa']
+        nome = request.form['nome']
+        data_cadastro = request.form['data_cadastro']
+        id_responsavel = request.form['id_responsavel']
+        
+        conn.execute('UPDATE categoria SET id_empresa = ?, nome = ?, data_cadastro = ?, id_responsavel = ? WHERE id_categoria = ?',
+                     (id_empresa, nome, data_cadastro, id_responsavel, id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_categorias'))
+    
+    conn.close()
+    return render_template('categoria/editar.html', categoria=categoria)
+
+@app.route('/categoria/excluir/<int:id>')
+def excluir_categoria(id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM categoria WHERE id_categoria = ?', (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('listar_categorias'))

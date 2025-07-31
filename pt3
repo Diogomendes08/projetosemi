@@ -1,21 +1,25 @@
-class Produto:
-    def __init__(self):
-        self.produtos = []
-    
-    def criar(self, id_produto, id_categoria, nome, custo, venda):
-        self.produtos.append({
-            'id_produto': id_produto,
-            'id_categoria': id_categoria,
-            'nome': nome,
-            'custo': float(custo),
-            'venda': float(venda)
-        })
-    
-    def calcular_lucro(self, id_produto):
-        produto = next((p for p in self.produtos if p['id_produto'] == id_produto), None)
-        return produto['venda'] - produto['custo'] if produto else 0
+from app import app, get_db_connection
 
-if __name__ == "__main__":
-    db = Produto()
-    db.criar(1, 1, "Notebook", 3000, 4500)
-    print("Lucro:", db.calcular_lucro(1))
+@app.route('/fornecedor')
+def listar_fornecedores():
+    conn = get_db_connection()
+    fornecedores = conn.execute('SELECT * FROM fornecedor').fetchall()
+    conn.close()
+    return render_template('fornecedor/listar.html', fornecedores=fornecedores)
+
+@app.route('/fornecedor/adicionar', methods=('GET', 'POST'))
+def adicionar_fornecedor():
+    if request.method == 'POST':
+        id_empresa = request.form['id_empresa']
+        telefone = request.form['telefone']
+        email = request.form['email']
+        crpj = request.form['crpj']
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO fornecedor (id_empresa, telefone, email, crpj) VALUES (?, ?, ?, ?)',
+                     (id_empresa, telefone, email, crpj))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_fornecedores'))
+    
+    return render_template('fornecedor/adicionar.html')

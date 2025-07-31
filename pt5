@@ -1,17 +1,26 @@
-class Cliente:
-    def __init__(self):
-        self.clientes = []
-    
-    def criar(self, id_cliente, id_empresa, nome, cpf, email):
-        self.clientes.append({
-            'id_cliente': id_cliente,
-            'id_empresa': id_empresa,
-            'nome': nome,
-            'cpf': cpf,
-            'email': email
-        })
+from app import app, get_db_connection
 
-if __name__ == "__main__":
-    db = Cliente()
-    db.criar(1, 1, "João Silva", "12345678901", "joao@email.com")
-    print("Cliente cadastrado:", db.clientes[0])
+@app.route('/empresa')
+def listar_empresas():
+    conn = get_db_connection()
+    empresas = conn.execute('SELECT * FROM smartEsteque_empresa').fetchall()
+    conn.close()
+    return render_template('empresa/listar.html', empresas=empresas)
+
+@app.route('/empresa/adicionar', methods=('GET', 'POST'))
+def adicionar_empresa():
+    if request.method == 'POST':
+        endereco = request.form['endereco']
+        telefone = request.form['telefone']
+        email = request.form['email']
+        cadastro = request.form['cadastro']
+        id_sistema = request.form['id_sistema']
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO smartEsteque_empresa (endereco, telefone, email, cadastro, id_sistema) VALUES (?, ?, ?, ?, ?)',
+                     (endereco, telefone, email, cadastro, id_sistema))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_empresas'))
+    
+    return render_template('empresa/adicionar.html')

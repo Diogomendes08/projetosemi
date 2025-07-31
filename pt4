@@ -1,20 +1,26 @@
-class Estoque:
-    def __init__(self):
-        self.estoques = []
-    
-    def criar(self, id_estoque, id_produto, quantidade, local, id_fornecedor):
-        self.estoques.append({
-            'id_estoque': id_estoque,
-            'id_produto': id_produto,
-            'quantidade': int(quantidade),
-            'local': local,
-            'id_fornecedor': id_fornecedor
-        })
-    
-    def verificar_disponibilidade(self, id_produto):
-        return sum(e['quantidade'] for e in self.estoques if e['id_produto'] == id_produto)
+from app import app, get_db_connection
 
-if __name__ == "__main__":
-    db = Estoque()
-    db.criar(1, 1, 50, "Prateleira A1", 1)
-    print("Quantidade em estoque:", db.verificar_disponibilidade(1))
+@app.route('/funcionario')
+def listar_funcionarios():
+    conn = get_db_connection()
+    funcionarios = conn.execute('SELECT * FROM funcionarios').fetchall()
+    conn.close()
+    return render_template('funcionario/listar.html', funcionarios=funcionarios)
+
+@app.route('/funcionario/adicionar', methods=('GET', 'POST'))
+def adicionar_funcionario():
+    if request.method == 'POST':
+        cpf = request.form['cpf']
+        email = request.form['email']
+        nome = request.form['nome']
+        id_cargo = request.form['id_cargo']
+        id_sistema = request.form['id_sistema']
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO funcionarios (cpf, email, nome, id_cargo, id_sistema) VALUES (?, ?, ?, ?, ?)',
+                     (cpf, email, nome, id_cargo, id_sistema))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_funcionarios'))
+    
+    return render_template('funcionario/adicionar.html')

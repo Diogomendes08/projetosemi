@@ -1,1 +1,26 @@
+from app import app, get_db_connection
+from datetime import datetime
 
+@app.route('/nota-fiscal')
+def listar_notas_fiscais():
+    conn = get_db_connection()
+    notas = conn.execute('SELECT * FROM nota_fiscal').fetchall()
+    conn.close()
+    return render_template('nota_fiscal/listar.html', notas=notas)
+
+@app.route('/nota-fiscal/adicionar', methods=('GET', 'POST'))
+def adicionar_nota_fiscal():
+    if request.method == 'POST':
+        id_venda = request.form['id_venda']
+        id_pedido = request.form['id_pedido']
+        numero = request.form['numero']
+        data_emissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO nota_fiscal (id_venda, id_pedido, numero, data_emissao) VALUES (?, ?, ?, ?)',
+                     (id_venda, id_pedido, numero, data_emissao))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_notas_fiscais'))
+    
+    return render_template('nota_fiscal/adicionar.html')

@@ -1,1 +1,25 @@
+from app import app, get_db_connection
 
+@app.route('/sistema')
+def listar_sistemas():
+    conn = get_db_connection()
+    sistemas = conn.execute('SELECT * FROM sistema').fetchall()
+    conn.close()
+    return render_template('sistema/listar.html', sistemas=sistemas)
+
+@app.route('/sistema/adicionar', methods=('GET', 'POST'))
+def adicionar_sistema():
+    if request.method == 'POST':
+        id_empresa = request.form['id_empresa']
+        id_auditoria = request.form['id_auditoria']
+        funcionarios = request.form['funcionarios']
+        id_fornecedor = request.form['id_fornecedor']
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO sistema (id_empresa, id_auditoria, funcionarios, id_fornecedor) VALUES (?, ?, ?, ?)',
+                     (id_empresa, id_auditoria, funcionarios, id_fornecedor))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_sistemas'))
+    
+    return render_template('sistema/adicionar.html')

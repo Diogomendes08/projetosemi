@@ -1,1 +1,32 @@
+from app import app, get_db_connection
 
+@app.route('/produto')
+def listar_produtos():
+    conn = get_db_connection()
+    produtos = conn.execute('''
+        SELECT p.*, c.nome as categoria_nome 
+        FROM produto p
+        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+    ''').fetchall()
+    conn.close()
+    return render_template('produto/listar.html', produtos=produtos)
+
+@app.route('/produto/adicionar', methods=('GET', 'POST'))
+def adicionar_produto():
+    conn = get_db_connection()
+    
+    if request.method == 'POST':
+        id_categoria = request.form['id_categoria']
+        nome = request.form['nome']
+        custo = request.form['custo']
+        venda = request.form['venda']
+        
+        conn.execute('INSERT INTO produto (id_categoria, nome, custo, venda) VALUES (?, ?, ?, ?)',
+                     (id_categoria, nome, custo, venda))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_produtos'))
+    
+    categorias = conn.execute('SELECT * FROM categoria').fetchall()
+    conn.close()
+    return render_template('produto/adicionar.html', categorias=categorias)

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Auditoria</title>
+    <style>
+        :root {
+            --primary-color: #673ab7;
+            --secondary-color: #ff9800;
+            --danger-color: #f44336;
+            --text-color: #263238;
+            --light-gray: #f1f3f4;
+            --border-color: #dadce0;
+            --success-color: #4caf50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 2.2rem;
+            font-weight: 500;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 35px 0 20px;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 22px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #455a64;
+            font-size: 0.95rem;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(103, 58, 183, 0.15);
+        }
+        
+        input[readonly] {
+            background-color: var(--light-gray);
+            cursor: not-allowed;
+        }
+        
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-top: 15px;
+            width: 100%;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #5e35b1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 35px;
+            font-size: 0.95rem;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        tr:hover {
+            background-color: #ede7f6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .view-btn, .edit-btn, .delete-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .view-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .edit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .view-btn:hover, .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .view-btn, .edit-btn, .delete-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Auditoria</h1>
+        
+        <h2>Registrar Nova Auditoria</h2>
+        <form id="auditoriaForm">
+            <div class="form-group">
+                <label for="id_auditoria">ID Auditoria:</label>
+                <input type="number" id="id_auditoria" name="id_auditoria" readonly>
+            </div>
+            <div class="form-group">
+                <label for="id_usuario">ID Usuário:</label>
+                <input type="number" id="id_usuario" name="id_usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="id_registro">ID Registro:</label>
+                <input type="number" id="id_registro" name="id_registro" required>
+            </div>
+            <div class="form-group">
+                <label for="tabela_afetada">Tabela Afetada:</label>
+                <input type="text" id="tabela_afetada" name="tabela_afetada" maxlength="50" required>
+            </div>
+            <div class="form-group">
+                <label for="dados">Dados:</label>
+                <textarea id="dados" name="dados" maxlength="255" required></textarea>
+            </div>
+            <button type="submit">Salvar Auditoria</button>
+        </form>
+        
+        <table id="auditoriasTable">
+            <thead>
+                <tr>
+                    <th>ID Auditoria</th>
+                    <th>ID Usuário</th>
+                    <th>ID Registro</th>
+                    <th>Tabela Afetada</th>
+                    <th>Dados</th>
+                    <th>Data/Hora</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dados serão inseridos dinamicamente aqui -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -5,26 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Usuários</title>
     <style>
-        /* Estilos similares ao anterior, adaptados para usuários */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #f0f0f0;
         }
+        
         .container {
-            max-width: 1000px;
+            width: 90%;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        
         h1 {
             color: #333;
             text-align: center;
+            margin-bottom: 30px;
         }
-        /* ... outros estilos ... */
+        
+        h2 {
+            color: #444;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
@@ -56,21 +117,11 @@
             <button type="submit">Salvar Usuário</button>
         </form>
         
-       
-        <table id="usuariosTable">
-            <thead>
-                <tr>
-                    <th>ID Usuário</th>
-                    <th>ID Empresa</th>
-                    <th>Nome</th>
-                    <th>Login</th>
-                    <th>Ações</th>
-                </tr>
             </thead>
-          
+            <tbody>
              
+            </tbody>
         </table>
     </div>
-
 </body>
 </html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Itens de Venda</title>
+    <style>
+        :root {
+            --primary-color: #9c27b0;
+            --secondary-color: #ff9800; 
+            --danger-color: #f44336; 
+            --success-color: #4caf50;
+            --info-color: #2196f3; 
+            --text-color: #2d3748;
+            --light-gray: #f7fafc;
+            --border-color: #e2e8f0;
+            --money-color: #2e7d32; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin: 35px 0 25px;
+            font-size: 1.7rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 1em;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.1);
+        }
+
+        input[readonly] {
+            background-color: var(--light-gray);
+            cursor: not-allowed;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-top: 20px;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #7b1fa2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 35px;
+            font-size: 0.95rem;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        tr:hover {
+            background-color: #f3e5f5;
+        }
+
+        .money-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--money-color);
+            text-align: right;
+        }
+
+        .quantity-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .total-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: right;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn, .delete-btn, .details-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .details-btn {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .details-btn:hover, .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .details-btn, .edit-btn, .delete-btn {
+                width: 100%;
+                text-align: center;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Itens de Venda</h1>
+        
+        <h2>Adicionar Item à Venda</h2>
+        <form id="itemVendaForm">
+            <div class="form-group">
+                <label for="id_item">ID Item:</label>
+                <input type="number" id="id_item" name="id_item" readonly>
+            </div>
+            <div class="form-group">
+                <label for="id_venda">ID Venda:</label>
+                <input type="number" id="id_venda" name="id_venda" required>
+            </div>
+            <div class="form-group">
+                <label for="id_produto">Produto:</label>
+                <select id="id_produto" name="id_produto" required>
+                    <!-- Opções serão preenchidas dinamicamente -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade" required>
+            </div>
+            <div class="form-group">
+                <label for="preco">Preço Unitário:</label>
+                <input type="text" id="preco" name="preco" maxlength="255" required>
+            </div>
+            <button type="submit">Adicionar Item</button>
+        </form>
+        
+        <table id="itensVendaTable">
+            <thead>
+             
+            </thead>
+           
+        </table>
+    </div>
+</body>
+</html>

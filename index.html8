@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Produtos</title>
+    <style>
+        :root {
+            --primary-color: #009688; 
+            --secondary-color: #607d8b; 
+            --danger-color: #e91e63; 
+            --success-color: #8bc34a; 
+            --text-color: #212121;
+            --light-gray: #f5f5f5;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 2.2rem;
+            font-weight: 500;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin: 30px 0 20px;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #424242;
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1);
+        }
+
+        input[readonly] {
+            background-color: var(--light-gray);
+            cursor: not-allowed;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-top: 10px;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #00897b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        tr:hover {
+            background-color: #e0f2f1;
+        }
+
+        .price-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .profit-cell {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn, .delete-btn, .details-btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .details-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .details-btn:hover, .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .details-btn, .edit-btn, .delete-btn {
+                width: 100%;
+                text-align: center;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Produtos</h1>
+        
+        <h2>Cadastrar Novo Produto</h2>
+        <form id="produtoForm">
+            <div class="form-group">
+                <label for="id_produto">ID Produto:</label>
+                <input type="number" id="id_produto" name="id_produto" readonly>
+            </div>
+            <div class="form-group">
+                <label for="id_categoria">ID Categoria:</label>
+                <select id="id_categoria" name="id_categoria" required>
+                    <!-- Opções serão preenchidas dinamicamente -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" maxlength="100" required>
+            </div>
+            <div class="form-group">
+                <label for="custo">Custo:</label>
+                <input type="text" id="custo" name="custo" maxlength="100" required>
+            </div>
+            <div class="form-group">
+                <label for="venda">Preço de Venda:</label>
+                <input type="text" id="venda" name="venda" maxlength="100" required>
+            </div>
+            <button type="submit">Salvar Produto</button>
+        </form>
+        
+        <h2>Produtos Cadastrados</h2>
+        <table id="produtosTable">
+            <thead>
+                <tr>
+                    <th>ID Produto</th>
+                    <th>ID Categoria</th>
+                    <th>Nome</th>
+                    <th>Custo</th>
+                    <th>Preço Venda</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+          
+        </table>
+    </div>
+
+    <script>
+ 
+</body>
+</html>
